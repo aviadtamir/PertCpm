@@ -1,13 +1,17 @@
 
 class Project(object):
-
+    # data members:
+    # activities dictionary  - {a:[b,c],b:[a]...}
+    # critical path - [] \ {}
+    # is cpm up to date
+    # is valid  - searches for isolated nodes or circles in the graph
     def __init__(self,activities):
         if activities is None:
             self.activities = {}
         else:
             self.activities = activities
 
-    def validate_graph(self):
+    def is_valid(self):
         # TODO  '''at - implement validation of the project graph'''
         raise NotImplementedError
 
@@ -17,10 +21,14 @@ class Project(object):
 
     def add_activity(self):
         # TODO  '''at - implement add activity'''
+        # is cpm update  = False
+        # at each call
         raise NotImplementedError
 
     def remove_activity(self):
         # TODO  '''at - implement raise activity'''
+        # is cpm update  = False
+        # at each call
         raise NotImplementedError
 
     def find_isolated_activity(self):

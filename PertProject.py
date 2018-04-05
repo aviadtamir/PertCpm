@@ -38,11 +38,13 @@ class Project(object):
 
         self.is_cpm_updated = False
 
-
-    def remove_activity(self):
-        # TODO  '''at - implement raise activity'''
+    def remove_activity(self, activity):
         # is cpm update  = False
         # at each call
+        self.activities.pop(activity, None)
+        for v in self.activities.values():
+            if activity in v:
+                v.remove(activity)
         self.is_cpm_updated = False
 
     def find_isolated_activity(self):

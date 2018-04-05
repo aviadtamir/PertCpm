@@ -5,7 +5,7 @@ class Project(object):
     # critical path - [] \ {}
     # is cpm up to date
     # is valid  - searches for isolated nodes or circles in the graph
-    def __init__(self,activities):
+    def __init__(self, activities):
         if activities is None:
             self.activities = {}
             self.is_cpm_updated = False
@@ -18,7 +18,7 @@ class Project(object):
     def is_valid(self):
         # calls find circles
         # calls find isolates()
-        if self.find_isolated_activity() is None and self.is_cyclic():
+        if self.find_isolated_activity() is None and not self.is_cyclic():
             return True
 
         return False
@@ -28,48 +28,47 @@ class Project(object):
         self.is_cpm_updated = True
         raise NotImplementedError
 
-    def add_activity(self,preceder,acivity):
-        # TODO  '''at - implement add activity'''
+    def add_activity(self, activity, precedors=None):
         # is cpm update  = False
         # at each call
+        if precedors is not None:
+            for ac in precedors:
+                ac.successors.append(activity)
+
         self.is_cpm_updated = False
 
-        raise NotImplementedError
 
     def remove_activity(self):
         # TODO  '''at - implement raise activity'''
         # is cpm update  = False
         # at each call
         self.is_cpm_updated = False
-        raise NotImplementedError
 
     def find_isolated_activity(self):
         is_isolate = None
         for i in range(0, len(self.activities.keys())):
-            if self.activities.keys()[i].precedors == []:
+            if self.activities.keys()[i].successors == []:
                 for j in range(0, len(self.activities.values())):
-                    if self.activities.keys()[i] not in self.activities.values()[j]:
+                    if not any(self.activities.keys()[i] in v for v in self.activities.values()):
                         is_isolate = self.activities.keys()[i]
-
         return is_isolate
 
     def is_cyclic(self):
-        # TODO - AT fix is cyclic bug, currently shows True for non cyclic and flase for cyclic
+        # TODO - AT fix is cyclic bug, currently shows True for non cyclic and False for cyclic
         visited = set()
         path = set()
-
         def visit(node):
             if node in visited:
                 return False
-            visited.add(node)
-            path.add(node)
-            for n in self.activities.get(node, []):
-                if n in path or visit(n):
+            visited.add(node.name)
+            path.add(node.name)
+            for successor in self.activities.get(node, []):
+                if successor.name in path or visit(successor) is True:
                     return True
-            path.remove(node)
+            path.remove(node.name)
             return False
-        return any(visit(v) for v in self.activities)
 
+        return any(visit(activity) for activity in self.activities)
 
     def show_activities_slack(self):
         # TODO  '''at - show_activities_slack - slack should be calculated in each activity at
@@ -84,18 +83,16 @@ class Project(object):
 
 class Activity(object):
 
-    # TODO at - maybe change c'tor and add more
-    # data members like es, fs, preceding and seceding activities
-    def __init__(self, name, duration,precedors):
+    def __init__(self, name, duration, successors):
         self.duration = duration
         self.name = name
-        self.precedors = precedors
+        self.successors = successors
 
     def __str__(self):
-        return "name: " + self.name + " , duration: " + str(self.duration) + " , precedors: " + str(self.precedors)
+        return "name: " + self.name + " , duration: " + str(self.duration) + " , successors: " + str(self.successors)
 
     def __repr__(self):
-        return "name: " + self.name + " , duration: " + str(self.duration) + " , precedors: " + str(self.precedors)
+        return "name: " + self.name + " , duration: " + str(self.duration) + " , successors: " + str(self.successors)
 
 
 

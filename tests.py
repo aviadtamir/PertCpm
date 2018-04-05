@@ -19,10 +19,12 @@ def main():
     d = {a: a.successors, b: b.successors, c: c.successors, e: e.successors}# ,f: c.successors}
     p = PertProject.Project(d)
     isolated = (p.find_isolated_activity())
+    print(p)
     p.add_activity(g,[a])
-
+    print(p)
     p.remove_activity(g)
-    print(p.is_cyclic())
+    print(p)
+    #print(p.is_cyclic())
     #print(p.is_valid())
 
 

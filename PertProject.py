@@ -90,8 +90,12 @@ class Project(object):
         raise NotImplementedError
 
     def __str__(self):
-        # TODO at - override __str__
-        raise NotImplementedError
+        project = "Project activities:  \n"
+        for activity in self.activities.keys():
+            project += str(activity) +"\n"
+        if self.is_cpm_updated is True:
+            project += "CPM: " + self.cpm + "\n"
+        return project
 
 
 class Activity(object):

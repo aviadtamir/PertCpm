@@ -47,17 +47,27 @@ class Project(object):
 
     def find_isolated_activity(self):
         is_isolate = None
+        for key in self.activities.keys():
+            if key.successors is []:
+                for v in self.activities.values():
+                    if not any(key in v for v in self.activities.values()):
+                        is_isolate = key
+        return is_isolate
+
+    '''def find_isolated_activity(self):
+        is_isolate = None
         for i in range(0, len(self.activities.keys())):
             if self.activities.keys()[i].successors == []:
                 for j in range(0, len(self.activities.values())):
                     if not any(self.activities.keys()[i] in v for v in self.activities.values()):
                         is_isolate = self.activities.keys()[i]
-        return is_isolate
+        return is_isolate'''
 
     def is_cyclic(self):
         # TODO - AT fix is cyclic bug, currently shows True for non cyclic and False for cyclic
         visited = set()
         path = set()
+
         def visit(node):
             if node in visited:
                 return False

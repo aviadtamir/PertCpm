@@ -94,7 +94,7 @@ class Project(object):
         for activity in self.activities.keys():
             project += str(activity) +"\n"
         if self.is_cpm_updated is True:
-            project += "CPM: " + self.cpm + "\n"
+            project += "Critical Path: " + self.critical_path + "\n"
         return project
 
 

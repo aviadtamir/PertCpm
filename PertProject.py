@@ -31,6 +31,7 @@ class Project(object):
     def add_activity(self, activity, precedors=None):
         # is cpm update  = False
         # at each call
+        self.activities[activity] = activity.successors
         if precedors is not None:
             for ac in precedors:
                 ac.successors.append(activity)

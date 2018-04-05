@@ -20,7 +20,6 @@ class Project(object):
         # calls find isolates()
         if self.find_isolated_activity() is None and not self.is_cyclic():
             return True
-
         return False
 
     def critical_path(self):
@@ -56,17 +55,7 @@ class Project(object):
                         is_isolate = key
         return is_isolate
 
-    '''def find_isolated_activity(self):
-        is_isolate = None
-        for i in range(0, len(self.activities.keys())):
-            if self.activities.keys()[i].successors == []:
-                for j in range(0, len(self.activities.values())):
-                    if not any(self.activities.keys()[i] in v for v in self.activities.values()):
-                        is_isolate = self.activities.keys()[i]
-        return is_isolate'''
-
     def is_cyclic(self):
-        # TODO - AT fix is cyclic bug, currently shows True for non cyclic and False for cyclic
         visited = set()
         path = set()
 
@@ -85,7 +74,7 @@ class Project(object):
 
     def show_activities_slack(self):
         # TODO  '''at - show_activities_slack - slack should be calculated in each activity at
-        # creation(contructor) or in a different method and should be added as a
+        # creation(constructor) or in a different method and should be added as a
         # data member in runtime '''
         raise NotImplementedError
 
@@ -108,8 +97,6 @@ class Activity(object):
     def __str__(self):
         return "name: " + self.name + " , duration: " + str(self.duration) + " , successors: " + str(self.successors)
 
-    def __repr__(self):
-        return "name: " + self.name + " , duration: " + str(self.duration) + " , successors: " + str(self.successors)
 
 
 
